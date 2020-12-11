@@ -5,37 +5,36 @@
 
 <head>
 
-Leaderboard
+<title>Leaderboard</title>
 
 <br>
 
+<link rel="stylesheet" type="text/css" href="mainPageStyling.css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<form method="POST">
-<input type="submit" name = "GamesWonDescending">Games Won Descending</input>
-</form>
+<p style="text-align: center;">
+    <a href="Main.php"> Back to Main Menu </a>
+</p>
+
+<div class="leaderboard">
+
 
 <form method="POST">
-<input type="submit" name = "GamesWonAscending">Games Won Ascending</input>
+<button type="submit" class="btn" name = "GamesWonDescending">Games Won Descending</button>
+<button type="submit" class="btn" name = "GamesWonAscending">Games Won Ascending</button>
+<button type="submit" class="btn" name = "TimePlayedDescending">Time Played Descending</button>
+<button type="submit" class="btn" name = "TimePlayedAscending">Time Played Ascending</button>
+<button type="submit" class="btn" name = "GamesPlayedDescending">Games Played Descending</button>
+<button type="submit" class="btn" name = "GamesPlayedAscending">Games Played Ascending</button>
 </form>
 
-<form method="POST">
-<input type="submit" name = "TimePlayedDescending">Time Played Descending</input>
-</form>
+</div>
 
-<form method="POST">
-<input type="submit" name = "TimePlayedAscending">Time Played Ascending</input>
-</form>
-
-<form method="POST">
-<input type="submit" name = "GamesPlayedDescending">Games Played Descending</input>
-</form>
-
-<form method="POST">
-<input type="submit" name = "GamesPlayedAscending">Games Played Ascending</input>
-</form>
+<br>
 
 <?php 
 //////////////////////////////// Games Won Descending /////////////////////////////
@@ -52,7 +51,7 @@ $GamesWonSorted = mysqli_query($db, $sortByGamesWon);
 while ($row = $GamesWonSorted->fetch_assoc()) {
 
     
-    echo $row['username'] . ": " . $row['gamesWon'] . "<br>" ;
+    echo "<p style='color:white; text-align: center; border-style: outset; margin: auto; width: 50%; background: #c41230; border-color: red;'>"  . $row['username'] . ": " . $row['gamesWon'] . "<br>" . "</p>";
 
 }
 }
@@ -72,7 +71,7 @@ $GamesWonSorted = mysqli_query($db, $sortByGamesWon);
 while ($row = $GamesWonSorted->fetch_assoc()) {
 
     
-    echo $row['username'] . ": " . $row['gamesWon'] . "<br>" ;
+    echo "<p style='color:white; text-align: center; border-style: outset; margin: auto; width: 50%; background: #c41230; border-color: red;'>" . $row['username'] . ": " . $row['gamesWon'] . "<br>" . "</p>" ;
 
 }
 }
@@ -92,7 +91,7 @@ $TimePlayedSorted = mysqli_query($db, $sortByTimePlayed);
 while ($row = $TimePlayedSorted->fetch_assoc()) {
 
     
-    echo $row['username'] . ": " . $row['timePlayed'] . "<br>" ;
+    echo "<p style='color:white; text-align: center; border-style: outset; margin: auto; width: 50%; background: #c41230; border-color: red;'>" .  $row['username'] . ": " . $row['timePlayed'] . "<br>" . "</p>" ;
 
 }
 }
@@ -112,7 +111,7 @@ $TimePlayedSorted = mysqli_query($db, $sortByTimePlayed);
 while ($row = $TimePlayedSorted->fetch_assoc()) {
 
     
-    echo $row['username'] . ": " . $row['timePlayed'] . "<br>" ;
+    echo "<p style='color:white; text-align: center; border-style: outset; margin: auto; width: 50%; background: #c41230; border-color: red;'>" .  $row['username'] . ": " . $row['timePlayed'] . "<br>" . "</p>" ;
 
 }
 }
@@ -132,7 +131,7 @@ $GamesPlayedSorted = mysqli_query($db, $sortByGamesPlayed);
 while ($row = $GamesPlayedSorted->fetch_assoc()) {
 
     
-    echo $row['username'] . ": " . $row['gamesPlayed'] . "<br>" ;
+    echo "<p style='color:white; text-align: center; border-style: outset; margin: auto; width: 50%; background: #c41230; border-color: red;'>" .  $row['username'] . ": " . $row['gamesPlayed'] . "<br>" . "</p>" ;
 
 }
 }
@@ -152,7 +151,7 @@ if(isset($_POST['GamesPlayedAscending'])) {
     while ($row = $GamesPlayedSorted->fetch_assoc()) {
     
         
-        echo $row['username'] . ": " . $row['gamesPlayed'] . "<br>" ;
+        echo "<p style='color:white; text-align: center; border-style: outset; margin: auto; width: 50%; background: #c41230; border-color: red;'>" .  $row['username'] . ": " . $row['gamesPlayed'] . "<br>"  . "</p>";
     
     }
     }

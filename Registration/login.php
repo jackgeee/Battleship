@@ -1,18 +1,16 @@
-<?php include('server.php') ?>
-<!DOCTYPE htm>
+<?php include('server.php'); ?>
+<!DOCTYPE html>
 <html>
 
 <head>
-
-    <title>
-        Login
-    </title>
-
-    <link rel="stylesheet" type="text/css" href="style.css">
-
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="loginStyles.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+
 
     <div class="header">
         <h2>
@@ -25,9 +23,8 @@
         <?php include('errors.php'); ?>
 
         <div class="input-group">
-
             <label>
-                Username
+            <em> <strong> Username </em> </strong>
             </label>
 
             <input type="text" name="username">
@@ -37,7 +34,7 @@
         <div class="input-group">
 
             <label>
-                Password
+            <em>  <strong> Password </em> </strong>
             </label>
 
             <input type="password" name="password">
@@ -51,7 +48,9 @@
         </div>
 
         <p>
-            Not registered yet? <a href="register.php">Sign Up</a>
+            Not registered yet? 
+            <br>
+            <a style="text-decoration: none;" href="register.php">Sign Up</a>
         </p>
 
     </form>

@@ -39,7 +39,7 @@ if (count($errors) == 0) {
     $db->query($query);
     $_SESSION['username'] = $username; 
     $_SESSION['success'] = "User created and logged in"; 
-    header('location: index.php');
+    header('location: ../MainPage/Main.php');
     
 }
 
@@ -66,7 +66,7 @@ if (isset($_POST['login_user'])) {
         if (mysqli_num_rows($results) == 1) {
             $_SESSION['username'] = $username; 
             $_SESSION['success'] = "Logged in";
-            header('location: ../Game/game_setup.php'); 
+            header('location: ../MainPage/Main.php'); 
         }
 
         else {

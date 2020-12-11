@@ -1,5 +1,5 @@
-<?php 
-session_start(); 
+<?php
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -8,6 +8,9 @@ session_start();
 <head>
     <meta charset="UTF-8" />
     <title>Game Setup</title>
+    <link rel="stylesheet" type="text/css" href="gameStyling.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
     <style>
         #canvas_container {
             /* to create a new stacking context */
@@ -23,41 +26,42 @@ session_start();
             left: 0;
         }
     </style>
-    <script src = "../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="game_setup.js"></script>
 </head>
 
 <body>
 
-    <h1>BATTLESHIP</h1>
 
-    <?php if (isset($_SESSION['username'])) : ?>
-        <p>Welcome <strong> <?php echo $_SESSION['username'] . "." ?> </strong> Please set your ships</p>
-    <?php endif ?>
+    <div class="header">
+        <h1>BATTLESHIP</h1>
+        <?php if (isset($_SESSION['username'])) : ?>
+            <p>Welcome<strong> <em> <?php echo $_SESSION['username'] . "," ?> </strong> </em> Please set your ships</p>
+        <?php endif ?>
+        <h5>Click to select and place, right click to rotate</h5>
+    </div>
+
+    
 
 
-    <h5>Click to select and place, right click to rotate</h5>
+
+    <form action="getEnemyInfo.php" method="GET" id="startGame">
+
+        
+
+            <input type='text' name='Ships' id='json'>
+            <button type='button' onclick="insSet()">Get Positions</button>
+            <button type="submit" name="start_game">Start Game</button>
+
+        
+
+    </form>
+
+
     <section id="canvas_container">
         <canvas width="700" height="500" id="board_canvas"></canvas>
         <canvas width="700" height="500" id="game_canvas"></canvas>
     </section>
-<!-- 
-    <form action="getEnemyInfo.php" method="GET" id="startGame">
-
-       
-            <button type="submit" class="btn" name="start_game" onclick="startGame()">Start Game</button>
-    
-
-    </form> -->
-
-    <form action="getEnemyInfo.php" method="GET" id="startGame">
-
-       <input type='text' name='Ships' id='json'>
-       <input type='button' onclick="insSet()">
-        <button type="submit" class="btn" name="start_game">Start Game</button>
-    
-
-    </form>
 
 
     <script>
@@ -66,8 +70,8 @@ session_start();
     <script>
         draw_ships();
         setup_event_handlers();
-        function insSet()
-        {
+
+        function insSet() {
             var ins = document.getElementById('json');
             ins.value = JSON.stringify(ships.map((s) => s.describe()));
         }

@@ -1,0 +1,122 @@
+
+/* html { 
+    background: url(../assets/images/backGround.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  } */
+    
+    .header {
+      font-size: 20px;
+      width: 30%;
+      color: #13284c;
+      background: #c41230;
+      text-align: center;
+      border-radius: 10px 10px 10px 10px;
+      padding: 5px;
+      font-family: "Open Sans";
+      margin: auto;
+    }
+
+    body {
+        background-color: #13284c;
+    }
+
+    h5 {
+        font-size: 20px;
+        width: 30%;
+        color: #13284c;
+        text-align: center;
+        border-radius: 3px 3px 3px 3px;
+        padding: 10px;
+        font-family: "Open Sans";
+        margin: auto;
+    }
+
+    section {
+        margin: auto;
+    }
+
+
+    /* .input-group {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+      .input-group input {
+        height: 20px;
+        width: 20%;
+        padding: 1px 1px;
+        border-radius: 10px;
+        margin: auto;
+      }
+      .btn {
+        padding: 10px;
+        font-size: 15px;
+        color: white;
+        background: #5F9EA0;
+        border: none;
+        border-radius: 5px;
+      } */
+
+    form {
+      width: 30%;
+      margin: 0px auto;
+      padding: 1px;
+    
+      border-radius: 5px 5px 5px 5px;
+    }
+    .input-group {
+      margin: 10px 0px 10px 0px;
+    }
+    .input-group label {
+      display: block;
+      text-align: left;
+      margin: 3px;
+      font-family: "Open Sans";
+      color: #c41230;
+    }
+    .input-group input {
+      height: 30px;
+      width: 93%;
+      padding: 5px 10px;
+      font-size: 16px;
+      border-radius: 30px;
+      border: 1px solid gray;
+    }
+    .btn {
+      padding: 10px;
+      font-size: 15px;
+      color: white;
+      background: #5F9EA0;
+      border: none;
+      border-radius: 5px;
+    }
+    .error {
+      width: 92%; 
+      margin: 0px auto; 
+      padding: 10px; 
+      border: 1px solid #a94442; 
+      color: #a94442; 
+      background: #f2dede; 
+      border-radius: 5px; 
+      text-align: left;
+    }
+    .success {
+      color: #3c763d; 
+      background: #dff0d8; 
+      border: 1px solid #3c763d;
+      margin-bottom: 20px;
+    }
+  
+    p {
+      font-family: sans-serif;
+      font-size: 30px;
+      margin: 50px auto 0px;
+      color: #13284c;
+    }
+  
+    a {
+        color: white;
+    } 
