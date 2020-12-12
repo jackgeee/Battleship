@@ -2,6 +2,11 @@
 session_start(); 
 
 //check if logged in
+if (isset($_SESSION['username'])) {
+    $_SESSION['msg'] = "Please log in first";
+    header('location: ../MainPage/Main.php'); 
+}
+
 if (!isset($_SESSION['username'])) {
     $_SESSION['msg'] = "Please log in first";
     header('location: login.php'); 
@@ -15,7 +20,7 @@ if (isset($_GET['logout'])) {
 }
 ?>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>Home</title>
@@ -48,4 +53,4 @@ if (isset($_GET['logout'])) {
 </div>
 
 </body>
-</html>
+</html> -->

@@ -134,7 +134,7 @@
     </div>
 
     <div class="content">
-        
+
         <p class="enemyName">  <?php echo $_SESSION['otherPlayer'] ?> </p>
         
         <p class="playerName">  <?php echo $_SESSION['username'] ?>   </p>

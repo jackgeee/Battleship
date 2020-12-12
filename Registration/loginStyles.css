@@ -27,6 +27,7 @@ html {
     border: 1px solid #13284c;
     background: #13284c;
     border-radius: 0px 0px 10px 10px;
+    text-align: center;
   }
   .input-group {
     margin: 10px 0px 10px 0px;
@@ -89,6 +90,7 @@ html {
   }
 
   a {
+      margin: auto;
       color: white;
   }
 

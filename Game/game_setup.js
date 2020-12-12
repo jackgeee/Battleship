@@ -40,9 +40,9 @@ const ShipType = [
   },
 ];
 const water_image = document.createElement("img");
-water_image.src = "../assets/images/water.png";
+water_image.src = "../assets/images/space.png";
 const ship_image = document.createElement("img");
-ship_image.src = "../assets/images/ships.png";
+ship_image.src = "../assets/images/newShips.png";
 const shadow_image = document.createElement("img");
 //shadow_image.src = "/assets/images/ships-silhouette.png";
 class Ship {

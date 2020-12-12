@@ -1,11 +1,13 @@
 <?php
 session_start();
 $db = mysqli_connect('localhost', 'root','', 'gamedb');
-// bens:
-// 
+
+
 if (isset($_GET['Ships'])) {
     $username = $_SESSION['username'];
     $data = ($_GET['Ships']);
+ 
+     
     
     $query = "INSERT INTO playerPositions (username, positions) VALUES ('$username', '$data')";
     $db->query($query);
@@ -14,11 +16,13 @@ if (isset($_GET['Ships'])) {
 
     $result = mysqli_query($db, $user_check_query);
 
-    if ($result->num_rows == 1) {
-        echo "waiting for other player...";
-    }
+
+//    if ($result->num_rows == 1) {
+    
+//     }
 
     if ($result->num_rows > 1) {
+   
 
         while ($row = $result->fetch_assoc()) {
 
@@ -41,9 +45,11 @@ if (isset($_GET['Ships'])) {
                 $pos2 = $enemyPositions["positions"];
                 $_SESSION['enemyPositions'] = $pos2; 
             }
+            
         }
     }
     header('location: draw_enemy_board.php');
     exit();
+  
 }
 ?>
