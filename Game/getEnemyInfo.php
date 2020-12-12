@@ -33,6 +33,7 @@ if (isset($_GET['Ships'])) {
 
             if ($row['username'] != $_SESSION['username']) {
 
+                $_SESSION['otherPlayer'] = $row['username'];
                 $otherPlayer = $row['username'];
                 $queryOtherPlayer = "SELECT positions FROM playerPositions WHERE username = '$otherPlayer'";
                 $result3 = mysqli_query($db, $queryOtherPlayer);

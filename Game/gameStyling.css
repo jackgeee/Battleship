@@ -19,6 +19,15 @@
       margin: auto;
     }
 
+    .content {
+        width: 30%;
+        margin: auto auto;
+        padding: 20px;
+        border: 1px solid #13284c;
+       
+        border-radius: 0px 0px 10px 10px;
+      }
+
     body {
         background-color: #13284c;
     }
@@ -38,27 +47,9 @@
         margin: auto;
     }
 
-
-    /* .input-group {
-        margin-left: auto;
-        margin-right: auto;
+    p {
+        text-align: center;
     }
-    
-      .input-group input {
-        height: 20px;
-        width: 20%;
-        padding: 1px 1px;
-        border-radius: 10px;
-        margin: auto;
-      }
-      .btn {
-        padding: 10px;
-        font-size: 15px;
-        color: white;
-        background: #5F9EA0;
-        border: none;
-        border-radius: 5px;
-      } */
 
     form {
       width: 30%;
@@ -120,3 +111,62 @@
     a {
         color: white;
     } 
+
+    /* .canvas1 {
+        position: fixed;
+        left: 200px;
+    }
+
+    .canvas2 {
+        position: fixed;
+        right: 200px;
+    } */
+
+  .canvas1{
+      float: left;
+  }
+
+  .canvas2 {
+    float: right; 
+      /* margin-left: 65%; */
+  }
+  
+  .boards {
+      position: relative;
+      margin: 0 auto;
+      /* justify-content: center; */
+  }
+
+  .gameMenu {
+      position: relative;
+      margin: auto;
+      text-align:center;
+  }
+
+  .inputs {
+      position: relative;
+      margin: auto;
+      text-align: center;
+  }
+
+  .enemyName {
+      float: left; 
+      color: #13284c;
+      text-align: center; 
+      border-style: outset; 
+      margin: auto; 
+      width: 20%; 
+      background: #c41230; 
+      border-color: red;
+  }
+
+  .playerName {
+      float: right; 
+      color: #13284c;
+      text-align: center; 
+      border-style: outset; 
+      margin: auto; 
+      width: 20%; 
+      background: #c41230; 
+      border-color: red;
+  }

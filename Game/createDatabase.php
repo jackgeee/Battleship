@@ -94,4 +94,5 @@ $registrationdb = mysqli_connect('localhost', 'root', '', 'registration');
 
 $registrationdb->close();
 
+header('location: game_setup.php')
 ?>
