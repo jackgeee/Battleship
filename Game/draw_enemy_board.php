@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html>
-
-
 <div hidden id="enemyPositions">
     <?php
     session_start();
@@ -14,6 +12,21 @@
     echo $_SESSION['playerPositions'];
     ?>
 </div>
+
+<!-- BENS CODE -->
+<div hidden id="turn">
+    <?php
+        if(isset($_SESSION['p1']))
+        {
+            echo 1;
+        }
+        else
+        {
+            echo 0;
+        }
+    ?>
+</div>
+<!-- BENS CODE END -->
 
 
 <div hidden id="enemyCoords">

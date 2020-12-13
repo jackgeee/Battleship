@@ -15,7 +15,7 @@ session_start();
         #canvas_container {
             /* to create a new stacking context */
             position: relative;
-            width: 700px;
+            width: 500px;
             height: 500px;
         }
 

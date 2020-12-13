@@ -15,13 +15,15 @@ if (isset($_GET['x'], $_GET['y'])) {
     $db->query($query);
 
 }
-
+// original:
+// $enemy_check_query = "SELECT hasClicked FROM coordsClickedOn WHERE username != '$username'";
+// $player_check_query = "SELECT hasClicked FROM coordsClickedOn WHERE username = '$username'";
+// original end
     $enemy_check_query = "SELECT hasClicked FROM coordsClickedOn WHERE username != '$username'";
     $player_check_query = "SELECT hasClicked FROM coordsClickedOn WHERE username = '$username'";
     $enemyresult = mysqli_query($db, $enemy_check_query);
     $playerresult = mysqli_query($db, $player_check_query);
-
-
+// wait until an enemy coord has been logged
 
     $enemypos = array();
     
@@ -36,8 +38,6 @@ if (isset($_GET['x'], $_GET['y'])) {
     $playerpos = array();
     // echo "<br>". "Player posistions". "<br>";
     while ($row = $playerresult->fetch_assoc()) {
-        // echo ($row['hasClicked']); 
-        // echo "<br>";
         array_push($playerpos, $row['hasClicked']);  
      }
     $_SESSION['playerCoords'] = $playerpos;

@@ -18,7 +18,7 @@ if (isset($_GET['Ships'])) {
 
 
    while ($result->num_rows == 1) {
-
+    $_SESSION['p1'] = 1;
     $user_check_query = "SELECT username FROM playerPositions";
     $result = mysqli_query($db, $user_check_query);
 

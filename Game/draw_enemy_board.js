@@ -1,5 +1,5 @@
-const grid_size = 50;
-const grid_offset_X = 0;
+const matSize = 50;
+const grid_offset_X = 200;
 const grid_offset_Y = 0;
 var sumToWin = 0;
 
@@ -63,17 +63,17 @@ const ShipType = [
 ];
 
 // const water_image = document.createElement("img");
-// water_image.src = "../assets/images/waterCropped.png";
+// water_image.src = "../src/images/waterCropped.png";
 const water_image = document.createElement("img");
-water_image.src = "../assets/images/space.png";
+water_image.src = "../src/images/space.png";
 const ship_image = document.createElement("img");
-ship_image.src = "../assets/images/newShips.png";
+ship_image.src = "../src/images/newShips.png";
 const hit_image = document.createElement("img");
-hit_image.src = "../assets/images/hit.png";
+hit_image.src = "../src/images/hit.png";
 const miss_image = document.createElement("img");
-miss_image.src = "../assets/images/miss_image.png";
+miss_image.src = "../src/images/miss_image.png";
 
-//shadow_image.src = "/assets/images/ships-silhouette.png";
+//shadow_image.src = "/src/images/ships-silhouette.png";
 
 class Ship {
   constructor(type, _x, _y, _horizontal) {
@@ -85,11 +85,11 @@ class Ship {
     this.far_y = 0;
 
     if (_horizontal) {
-      this.far_x = ShipType[this.type].size * grid_size + this._x;
-      this.far_y = grid_size + this._y;
+      this.far_x = ShipType[this.type].size * matSize + this._x;
+      this.far_y = matSize + this._y;
     } else {
-      this.far_x = grid_size + this.x;
-      this.far_y = ShipType[this.type].size * grid_size + this._y;
+      this.far_x = matSize + this.x;
+      this.far_y = ShipType[this.type].size * matSize + this._y;
     }
   }
   get x() {
@@ -98,7 +98,7 @@ class Ship {
   set x(x) {
     this._x = x;
     this.far_x =
-      (this._horizontal ? ShipType[this.type].size : 1) * grid_size + this._x;
+      (this._horizontal ? ShipType[this.type].size : 1) * matSize + this._x;
   }
   get y() {
     return this._y;
@@ -106,7 +106,7 @@ class Ship {
   set y(y) {
     this._y = y;
     this.far_y =
-      (this._horizontal ? 1 : ShipType[this.type].size) * grid_size + this._y;
+      (this._horizontal ? 1 : ShipType[this.type].size) * matSize + this._y;
   }
   get horizontal() {
     return this._horizontal;
@@ -117,32 +117,32 @@ class Ship {
     this.x = this._x;
     this.y = this._y;
   }
-  draw(ctx) {
-    ctx.save();
+  draw(fillerEnvironment) {
+    fillerEnvironment.save();
     if (this._horizontal) {
-      ctx.translate(this.x, this.y);
-      ctx.rotate(-Math.PI / 2);
-      ctx.translate(-this.x, -this.y);
-      ctx.translate(-grid_size, 0);
+      fillerEnvironment.translate(this.x, this.y);
+      fillerEnvironment.rotate(-Math.PI / 2);
+      fillerEnvironment.translate(-this.x, -this.y);
+      fillerEnvironment.translate(-matSize, 0);
     }
-    const s_type = ShipType[this.type];
-    ctx.drawImage(
+    const shipType = ShipType[this.type];
+    fillerEnvironment.drawImage(
       ship_image,
-      s_type.left * grid_size,
-      s_type.top * grid_size,
-      grid_size,
-      s_type.size * grid_size,
+      shipType.left * matSize,
+      shipType.top * matSize,
+      matSize,
+      shipType.size * matSize,
       this.x,
       this.y,
-      grid_size,
-      s_type.size * grid_size
+      matSize,
+      shipType.size * matSize
     );
-    ctx.restore();
+    fillerEnvironment.restore();
   }
 
   describe() {
-    const x = (this.x - grid_offset_X) / grid_size;
-    const y = (this.y - grid_offset_Y) / grid_size;
+    const x = (this.x - grid_offset_X) / matSize;
+    const y = (this.y - grid_offset_Y) / matSize;
     const positions = new Array(ShipType[this.type].size)
       .fill(0)
       .map((_, index) => (this.horizontal ? [x + index, y] : [x, index + y]));
@@ -209,32 +209,32 @@ for (var x = 0; x < 5; x++) {
 const ships = [
   new Ship(
     0,
-    coordArray[0][0] * grid_size + grid_offset_X,
-    coordArray[0][1] * grid_size,
+    coordArray[0][0] * matSize + grid_offset_X,
+    coordArray[0][1] * matSize,
     directionArray[0]
   ),
   new Ship(
     1,
-    coordArray[1][0] * grid_size + grid_offset_X,
-    coordArray[1][1] * grid_size,
+    coordArray[1][0] * matSize + grid_offset_X,
+    coordArray[1][1] * matSize,
     directionArray[1]
   ),
   new Ship(
     2,
-    coordArray[2][0] * grid_size + grid_offset_X,
-    coordArray[2][1] * grid_size,
+    coordArray[2][0] * matSize + grid_offset_X,
+    coordArray[2][1] * matSize,
     directionArray[2]
   ),
   new Ship(
     3,
-    coordArray[3][0] * grid_size + grid_offset_X,
-    coordArray[3][1] * grid_size,
+    coordArray[3][0] * matSize + grid_offset_X,
+    coordArray[3][1] * matSize,
     directionArray[3]
   ),
   new Ship(
     4,
-    coordArray[4][0] * grid_size + grid_offset_X,
-    coordArray[4][1] * grid_size,
+    coordArray[4][0] * matSize + grid_offset_X,
+    coordArray[4][1] * matSize,
     directionArray[4]
   ),
 ];
@@ -243,32 +243,32 @@ const ships = [
 const playerShips = [
   new Ship(
     0,
-    playerCoordArray[0][0] * grid_size + grid_offset_X,
-    playerCoordArray[0][1] * grid_size,
+    playerCoordArray[0][0] * matSize + grid_offset_X,
+    playerCoordArray[0][1] * matSize,
     playerDirectionArray[0]
   ),
   new Ship(
     1,
-    playerCoordArray[1][0] * grid_size + grid_offset_X,
-    playerCoordArray[1][1] * grid_size,
+    playerCoordArray[1][0] * matSize + grid_offset_X,
+    playerCoordArray[1][1] * matSize,
     playerDirectionArray[1]
   ),
   new Ship(
     2,
-    playerCoordArray[2][0] * grid_size + grid_offset_X,
-    playerCoordArray[2][1] * grid_size,
+    playerCoordArray[2][0] * matSize + grid_offset_X,
+    playerCoordArray[2][1] * matSize,
     playerDirectionArray[2]
   ),
   new Ship(
     3,
-    playerCoordArray[3][0] * grid_size + grid_offset_X,
-    playerCoordArray[3][1] * grid_size,
+    playerCoordArray[3][0] * matSize + grid_offset_X,
+    playerCoordArray[3][1] * matSize,
     playerDirectionArray[3]
   ),
   new Ship(
     4,
-    playerCoordArray[4][0] * grid_size + grid_offset_X,
-    playerCoordArray[4][1] * grid_size,
+    playerCoordArray[4][0] * matSize + grid_offset_X,
+    playerCoordArray[4][1] * matSize,
     playerDirectionArray[4]
   ),
 ];
@@ -289,15 +289,15 @@ function draw_enemy_board() {
   context.drawImage(water_image, 0, 0, 500, 500);
   for (let row = 0; row < 10; row += 1) {
     for (let col = 0; col < 10; col += 1) {
-      let top = row * grid_size;
-      let left = col * grid_size;
+      let top = row * matSize;
+      let left = col * matSize;
       context.fillStyle = "white";
-      context.fillRect(left - 2, top - 2, grid_size, 4);
-      context.fillRect(left - 2, top - 2, 4, grid_size);
-      context.fillRect(left - 2, top - 2 + grid_size, grid_size, 4);
-      context.fillRect(left - 2 + grid_size, top - 2, 4, grid_size);
-      // context.fillRect(left, top, grid_size, grid_size);
-      // context.fillRect(left + 1, top + 1, grid_size - 2, grid_size - 2);
+      context.fillRect(left - 2, top - 2, matSize, 4);
+      context.fillRect(left - 2, top - 2, 4, matSize);
+      context.fillRect(left - 2, top - 2 + matSize, matSize, 4);
+      context.fillRect(left - 2 + matSize, top - 2, 4, matSize);
+      // context.fillRect(left, top, matSize, matSize);
+      // context.fillRect(left + 1, top + 1, matSize - 2, matSize - 2);
     }
   }
 }
@@ -317,13 +317,13 @@ function draw_player_board() {
   context.drawImage(water_image, 0, 0, 500, 500);
   for (let row = 0; row < 10; row += 1) {
     for (let col = 0; col < 10; col += 1) {
-      let top = row * grid_size;
-      let left = col * grid_size;
+      let top = row * matSize;
+      let left = col * matSize;
       context.fillStyle = "white";
-      context.fillRect(left - 2, top - 2, grid_size, 4);
-      context.fillRect(left - 2, top - 2, 4, grid_size);
-      context.fillRect(left - 2, top - 2 + grid_size, grid_size, 4);
-      context.fillRect(left - 2 + grid_size, top - 2, 4, grid_size);
+      context.fillRect(left - 2, top - 2, matSize, 4);
+      context.fillRect(left - 2, top - 2, 4, matSize);
+      context.fillRect(left - 2, top - 2 + matSize, matSize, 4);
+      context.fillRect(left - 2 + matSize, top - 2, 4, matSize);
     }
   }
 }
@@ -413,8 +413,8 @@ function find_ship2(x, y) {
   ships.every((ship) => {
     if (!(ship.x <= x && ship.y <= y && ship.far_x >= x && ship.far_y >= y)) {
       // draw_miss(
-      //   Math.floor(x / grid_size) * grid_size,
-      //   Math.floor(y / grid_size) * grid_size
+      //   Math.floor(x / matSize) * matSize,
+      //   Math.floor(y / matSize) * matSize
       // );
     }
   });
@@ -425,8 +425,8 @@ function find_ship2(x, y) {
       alert(ss);
       sumToWin += 1;
       // draw_hit(
-      //   Math.floor(x / grid_size) * grid_size,
-      //   Math.floor(y / grid_size) * grid_size
+      //   Math.floor(x / matSize) * matSize,
+      //   Math.floor(y / matSize) * matSize
       // );
     }
   });
@@ -435,8 +435,8 @@ function find_ship2(x, y) {
 }
 
 // draw_miss(
-//     Math.floor(x / grid_size) * grid_size,
-//     Math.floor(y / grid_size) * grid_size
+//     Math.floor(x / matSize) * matSize,
+//     Math.floor(y / matSize) * matSize
 //   );
 
 let selected_ship = undefined;
@@ -462,7 +462,7 @@ function setup_enemy_event_handlers() {
       type: "GET",
       url: "coordHandler.php",
       success: function () {
-      window.location = "coordHandler.php?x=" + Math.floor(x / grid_size) * grid_size +"&y="+ Math.floor(y / grid_size) * grid_size;
+      window.location = "coordHandler.php?x=" + Math.floor(x / matSize) * matSize +"&y="+ Math.floor(y / matSize) * matSize;
       },
     });
   }
@@ -472,18 +472,6 @@ function setup_enemy_event_handlers() {
     const y = e.offsetY;
     find_ship2(x, y);
     sendCoords(x,y);
-    // bens
-    // enemyclicks = JSON.parse(
-    //   document.getElementById("enemyCoords").innerHTML
-    // );
-    // eLength = enemyclicks.length;
-    // while(eLength <= enemyclicks.length)
-    // {
-    //   sendCoords(x,y);
-    // }
-    // bens end
-    
-
 
     if (sumToWin == 17) {
       alert("YOU WON!");

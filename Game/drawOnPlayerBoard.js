@@ -19,7 +19,7 @@ const playerShipsPos = JSON.parse(
 document.getElementById("playerPositions").style.display == "none";
 
 const player_miss_image = document.createElement("img");
-player_miss_image.src = "../assets/images/playerMiss.png";
+player_miss_image.src = "../src/images/playerMiss.png";
 
 // for ecorrds
 //     for ppos
@@ -108,3 +108,4 @@ function drawHits() {
     alert("You LOSE");
   }
 }
+
