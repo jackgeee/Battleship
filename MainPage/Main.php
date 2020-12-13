@@ -23,7 +23,7 @@ session_start();
 <div class="content">
    <ul style="list-style-type:none;">
        <li>
-           <a href="../Game/createDatabase.php">Play Game</a>
+           <a href="../Game/game_setup.php">Play Game</a>
            <br>
            <a href="leaderboard.php">Leaderboard</a>
            <br>
