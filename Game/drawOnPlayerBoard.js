@@ -105,6 +105,6 @@ function drawHits() {
     alert("You win");
   }
   if (sumtoloose > 16) {
-    alert("You SUCK");
+    alert("You LOSE");
   }
 }

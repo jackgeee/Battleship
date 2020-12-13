@@ -17,9 +17,12 @@ if (isset($_GET['Ships'])) {
     $result = mysqli_query($db, $user_check_query);
 
 
-//    if ($result->num_rows == 1) {
-    
-//     }
+   while ($result->num_rows == 1) {
+
+    $user_check_query = "SELECT username FROM playerPositions";
+    $result = mysqli_query($db, $user_check_query);
+
+    }
 
     if ($result->num_rows > 1) {
    

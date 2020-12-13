@@ -443,6 +443,7 @@ let selected_ship = undefined;
 let mouse_X_offset = 0;
 let mouse_Y_offset = 0;
 
+
 function setup_enemy_event_handlers() {
   const game = document.getElementById("enemy_game_canvas");
   game.onmousemove = function (e) {
@@ -471,6 +472,19 @@ function setup_enemy_event_handlers() {
     const y = e.offsetY;
     find_ship2(x, y);
     sendCoords(x,y);
+    // bens
+    // enemyclicks = JSON.parse(
+    //   document.getElementById("enemyCoords").innerHTML
+    // );
+    // eLength = enemyclicks.length;
+    // while(eLength <= enemyclicks.length)
+    // {
+    //   sendCoords(x,y);
+    // }
+    // bens end
+    
+
+
     if (sumToWin == 17) {
       alert("YOU WON!");
       sumToWin = 0;
