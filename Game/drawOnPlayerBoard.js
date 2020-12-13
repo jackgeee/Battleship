@@ -105,9 +105,12 @@ function drawHits() {
   }
   if (sumtowin > 16) {
     alert("You win");
+    
   }
   if (sumtoloose > 16) {
     alert("You LOSE");
   }
 }
 
+
+  

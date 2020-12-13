@@ -1,87 +1,74 @@
-const matSize = 50;
-const image_perimeter = 0;
-let shipClickedOn = undefined;
-let clickXTransform = 0;
-let clickYTransform = 0;
-const background = document.createElement("img");
-background.src = "../src/images/space.png";
-const spaceShips = document.createElement("img");
-spaceShips.src = "../src/images/newShips.png";
+[]
+//////////////////////////////////////////////////////////////////////
+//                    GLOBAL CONSTANTS AND IMAGES                   //
+                                                                    //
+const matSize = 50;                                                 //
+const image_perimeter = 0;                                          //
+let shipClickedOn = undefined;                                      //
+let clickXTransform = 0;                                            //
+let clickYTransform = 0;                                            //
+const background = document.createElement("img");                   //
+background.src = "../src/images/space.png";                         //
+const spaceShips = document.createElement("img");                   //
+spaceShips.src = "../src/images/newShips.png";                      //
+                                                                    //
+//////////////////////////////////////////////////////////////////////
 
 
-class Ship {
-  constructor(type, x_1, y_1, lengthwise) {
 
-    this.type = type;
-    this.x_1 = x_1;
-    this.y_1 = y_1;
-    this.lengthwise = lengthwise;
-    this.x_2 = 0;
-    this.y_2 = 0;
-
-    if (lengthwise)
-     {
-      this.x_2 = typeOfShips[this.type].size * matSize + this.x_1;
-      this.y_2 = matSize + this.y_1;
-    } 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//          SHIP CLASS W/GETTERS, SETTERS, JS DRAW FXNS                                                           //
+                                                                    
+class Ship {                                                         
+  constructor(type, x_1, y_1, lengthwise) {                          
+    this.type = type;                                                
+    this.x_1 = x_1;                                                  
+    this.y_1 = y_1;                                                  
+    this.lengthwise = lengthwise;                                   
+    this.x_2 = 0;                                                    
+    this.y_2 = 0; 
+    if (lengthwise)                                                  
+     {                                                               
+      this.x_2 = typeOfShips[this.type].size * matSize + this.x_1;   
+      this.y_2 = matSize + this.y_1;        
+    }                                                                
     else 
     {
       this.x_2 = matSize + this.x;
       this.y_2 = typeOfShips[this.type].size * matSize + this.y_1;
     }
-
   }
-
   get x() { return this.x_1; }
-
   set x(x) 
   {
-
     this.x_1 = x;
-
     if (this.lengthwise) {
       this.x_2 = typeOfShips[this.type].size * matSize + this.x_1;
     }
-
     else {
       this.x_2 = matSize + this.x_1; 
     }
-    // this.x_2 = (this.lengthwise ? typeOfShips[this.type].size : 1) * matSize + this.x_1; 
   }
-  
   get y() { return this.y_1; }
-
-
-  // this.y_2 =
-  //     (this.lengthwise ? 1 : typeOfShips[this.type].size) * matSize +
-  //     this.y_1;
-
   set y(y) 
   {
-
     this.y_1 = y;
     if (this.lengthwise) {
       this.y_2 = matSize + this.y_1;
     }
     else {
       this.y_2 = typeOfShips[this.type].size * matSize + this.y_1;
-    }
-    
+    }  
   }
-
   get horizontal() { return this.lengthwise; }
-
   set horizontal(horizontal) 
   {
     this.lengthwise = horizontal;
     this.x = this.x_1;
     this.y = this.y_1;
   }
-
   draw(fillerEnvironment) {
     fillerEnvironment.save();
-
     if (this.lengthwise) 
     {
       fillerEnvironment.translate(this.x, this.y);
@@ -89,7 +76,6 @@ class Ship {
       fillerEnvironment.translate(-this.x, -this.y);
       fillerEnvironment.translate(-matSize, 0);
     }
-
     const shipType = typeOfShips[this.type];
     fillerEnvironment.drawImage(
       spaceShips,
@@ -104,15 +90,11 @@ class Ship {
     );
     fillerEnvironment.restore();
   }
-
   drawShipsInBoard(fillerEnvironment, imageRefTop, imageRefLeft) {
-
     const shipType = typeOfShips[this.type];
     const offset = (spaceShips - matSize) / 2;
-
     imageRefLeft = offset * (this.horizontal ? shipType.size : 1);
     imageRefTop = offset * (this.horizontal ? 1 : shipType.size);
-    
     fillerEnvironment.save();
     if (this.lengthwise) {
       fillerEnvironment.translate(imageRefLeft, imageRefTop);
@@ -148,7 +130,12 @@ class Ship {
   }
 }
 
-// The array which is used to construct each Space Ship
+//                                  END SHIP CLASS                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+/////////////////////////////JSON FORMATTED ARRAY WITH REFERENCES FOR DRAW FXNS/////////////////////////////////////
 const typeOfShips = [
   {
     size: 5,
@@ -185,10 +172,10 @@ const typeOfShips = [
     name: "Patrol Ship",
   },
 ];
+/////////////////////////////JSON FORMATTED ARRAY WITH REFERENCES FOR DRAW FXNS/////////////////////////////////////
 
 
-
-
+/////////////////////////////SHIPS WITH TYPE & DEFAULT DRAW POSITION////////////////////////////////////////////////
 const ships = [
   new Ship(0, 0, 250, false),
   new Ship(1, 50, 300, false),
@@ -196,7 +183,10 @@ const ships = [
   new Ship(3, 150, 350, false),
   new Ship(4, 200, 400, false),
 ];
+/////////////////////////////SHIPS WITH TYPE & DEFAULT DRAW POSITION////////////////////////////////////////////////
 
+
+/////////////////////////////DRAW MATRIX GRID ON CANVAS WITH BACKGROUND IMAGE///////////////////////////////////////
 function draw_board() {
 
   if (!background.complete) {
@@ -219,9 +209,10 @@ function draw_board() {
     }
   }
 }
-// orig
+/////////////////////////////DRAW MATRIX GRID ON CANVAS/////////////////////////////////////////////////////////////
 
-// if (!spaceShips.complete || !shadow_image.complete) {
+
+/////////////////////////////DRAW SPACESHIPS ON MATRIX//////////////////////////////////////////////////////////////
 function draw_ships() {
 
   if (!spaceShips.complete) {
@@ -243,11 +234,13 @@ function draw_ships() {
   }
   ships.forEach((s) => s.draw(context));
 }
+/////////////////////////////DRAW SPACESHIPS ON MATRIX//////////////////////////////////////////////////////////////
 
 
-function clickedInsideShip(x, y) {
+/////////////////////////////CHECK IF A SHIP HAS BEEN CLICKED ON////////////////////////////////////////////////////
+function clickedInsideShip(x, y) 
+{
   let shipSelection = undefined;
-  
   ships.forEach((ship, index) => 
   {
     if (ship.x <= x && ship.y <= y && ship.x_2 >= x && ship.y_2 >= y) {
@@ -258,10 +251,11 @@ function clickedInsideShip(x, y) {
   return shipSelection;
 
 }
+/////////////////////////////CHECK IF A SHIP HAS BEEN CLICKED ON////////////////////////////////////////////////////
 
 
 
-
+/////////////////////////////CHECK IF A SHIP HAS BEEN CLICKED ON////////////////////////////////////////////////////
 function onEvent() {
   const game = document.getElementById("game_canvas");
   game.onmousemove = function (e) {
@@ -311,6 +305,7 @@ function onEvent() {
     }
   };
 }
+
 // function startGame() {
   
 //   var tmp = ships.map((s) => s.getJsonInfo());

@@ -1,7 +1,17 @@
 const matSize = 50;
-const grid_offset_X = 0;
-const grid_offset_Y = 0;
 var sumToWin = 0;
+let shipClickedOn = undefined;
+let clickXTransform = 0;
+let clickYTransform = 0;
+const background = document.createElement("img");
+background.src = "../src/images/space.png";
+const spaceShips = document.createElement("img");
+spaceShips.src = "../src/images/newShips.png";
+const hit_image = document.createElement("img");
+hit_image.src = "../src/images/hit.png";
+const miss_image = document.createElement("img");
+miss_image.src = "../src/images/miss_image.png";
+
 
 const positions = JSON.parse(
   document.getElementById("enemyPositions").innerHTML
@@ -11,20 +21,111 @@ const positions = JSON.parse(
 const playerPositions = JSON.parse(
   document.getElementById("playerPositions").innerHTML
 );
-//document.getElementById("playerPositions").style.display == "none";
-
-// const enemyCoords = JSON.parse(
-//   document.getElementById("enemyCoords").innerHTML
-// );
-// document.getElementById("enemyCoords").style.display == "none";
-
-// const playerCoords = JSON.parse(
-//   document.getElementById("playerCoords").innerHTML
-// );
-// document.getElementById("playerCoords").style.display == "none";
 
 
-const ShipType = [
+class Ship {
+  constructor(type, x_1, y_1, lengthwise) {
+    this.type = type;
+    this.x_1 = x_1;
+    this.y_1 = y_1;
+    this.lengthwise = lengthwise;
+    this.x_2 = 0;
+    this.y_2 = 0;
+
+    if (lengthwise)
+    {
+     this.x_2 = typeOfShips[this.type].size * matSize + this.x_1;
+     this.y_2 = matSize + this.y_1;
+   } 
+
+   else 
+   {
+     this.x_2 = matSize + this.x;
+     this.y_2 = typeOfShips[this.type].size * matSize + this.y_1;
+   }
+
+  }
+  get x() { return this.x_1; }
+
+   set x(x) 
+  {
+
+    this.x_1 = x;
+
+    if (this.lengthwise) {
+      this.x_2 = typeOfShips[this.type].size * matSize + this.x_1;
+    }
+
+    else {
+      this.x_2 = matSize + this.x_1; 
+    }
+    // this.x_2 = (this.lengthwise ? typeOfShips[this.type].size : 1) * matSize + this.x_1; 
+  }
+
+get y() { return this.y_1; }
+
+set y(y) 
+{
+
+  this.y_1 = y;
+  if (this.lengthwise) {
+    this.y_2 = matSize + this.y_1;
+  }
+  else {
+    this.y_2 = typeOfShips[this.type].size * matSize + this.y_1;
+  }
+  
+}
+
+get horizontal() { return this.lengthwise; }
+
+set horizontal(horizontal) 
+{
+  this.lengthwise = horizontal;
+  this.x = this.x_1;
+  this.y = this.y_1;
+}
+
+  draw(fillerEnvironment) {
+
+    fillerEnvironment.save();
+
+    if (this.lengthwise) 
+    {
+      fillerEnvironment.translate(this.x, this.y);
+      fillerEnvironment.rotate(-Math.PI / 2);
+      fillerEnvironment.translate(-this.x, -this.y);
+      fillerEnvironment.translate(-matSize, 0);
+    }
+    
+    const shipType = typeOfShips[this.type];
+    fillerEnvironment.drawImage(
+      spaceShips,
+      shipType.left * matSize,
+      shipType.top * matSize,
+      matSize,
+      shipType.size * matSize,
+      this.x,
+      this.y,
+      matSize,
+      shipType.size * matSize
+    );
+    fillerEnvironment.restore();
+  }
+
+  getJsonInfo() {
+    const x = (this.x) / matSize;
+    const y = (this.y) / matSize;
+    const positions = new Array(ShipType[this.type].size)
+      .fill(0)
+      .map((_, index) => (this.horizontal ? [x + index, y] : [x, index + y]));
+    return {
+      positions,
+    };
+  }
+}
+
+const typeOfShips = [
   // Carrier
   {
     size: 5,
@@ -62,95 +163,13 @@ const ShipType = [
   },
 ];
 
-// const water_image = document.createElement("img");
-// water_image.src = "../src/images/waterCropped.png";
-const water_image = document.createElement("img");
-water_image.src = "../src/images/space.png";
-const ship_image = document.createElement("img");
-ship_image.src = "../src/images/newShips.png";
-const hit_image = document.createElement("img");
-hit_image.src = "../src/images/hit.png";
-const miss_image = document.createElement("img");
-miss_image.src = "../src/images/miss_image.png";
+// const background = document.createElement("img");
+// background.src = "../src/images/waterCropped.png";
+
 
 //shadow_image.src = "/src/images/ships-silhouette.png";
 
-class Ship {
-  constructor(type, _x, _y, _horizontal) {
-    this.type = type;
-    this._x = _x;
-    this._y = _y;
-    this._horizontal = _horizontal;
-    this.far_x = 0;
-    this.far_y = 0;
 
-    if (_horizontal) {
-      this.far_x = ShipType[this.type].size * matSize + this._x;
-      this.far_y = matSize + this._y;
-    } else {
-      this.far_x = matSize + this.x;
-      this.far_y = ShipType[this.type].size * matSize + this._y;
-    }
-  }
-  get x() {
-    return this._x;
-  }
-  set x(x) {
-    this._x = x;
-    this.far_x =
-      (this._horizontal ? ShipType[this.type].size : 1) * matSize + this._x;
-  }
-  get y() {
-    return this._y;
-  }
-  set y(y) {
-    this._y = y;
-    this.far_y =
-      (this._horizontal ? 1 : ShipType[this.type].size) * matSize + this._y;
-  }
-  get horizontal() {
-    return this._horizontal;
-  }
-  set horizontal(horizontal) {
-    this._horizontal = horizontal;
-    // recalculate far_*
-    this.x = this._x;
-    this.y = this._y;
-  }
-  draw(fillerEnvironment) {
-    fillerEnvironment.save();
-    if (this._horizontal) {
-      fillerEnvironment.translate(this.x, this.y);
-      fillerEnvironment.rotate(-Math.PI / 2);
-      fillerEnvironment.translate(-this.x, -this.y);
-      fillerEnvironment.translate(-matSize, 0);
-    }
-    const shipType = ShipType[this.type];
-    fillerEnvironment.drawImage(
-      ship_image,
-      shipType.left * matSize,
-      shipType.top * matSize,
-      matSize,
-      shipType.size * matSize,
-      this.x,
-      this.y,
-      matSize,
-      shipType.size * matSize
-    );
-    fillerEnvironment.restore();
-  }
-
-  getJsonInfo() {
-    const x = (this.x - grid_offset_X) / matSize;
-    const y = (this.y - grid_offset_Y) / matSize;
-    const positions = new Array(ShipType[this.type].size)
-      .fill(0)
-      .map((_, index) => (this.horizontal ? [x + index, y] : [x, index + y]));
-    return {
-      positions,
-    };
-  }
-}
 
 // console.log(positions);
 
@@ -209,31 +228,31 @@ for (var x = 0; x < 5; x++) {
 const ships = [
   new Ship(
     0,
-    coordArray[0][0] * matSize + grid_offset_X,
+    coordArray[0][0] * matSize,
     coordArray[0][1] * matSize,
     directionArray[0]
   ),
   new Ship(
     1,
-    coordArray[1][0] * matSize + grid_offset_X,
+    coordArray[1][0] * matSize,
     coordArray[1][1] * matSize,
     directionArray[1]
   ),
   new Ship(
     2,
-    coordArray[2][0] * matSize + grid_offset_X,
+    coordArray[2][0] * matSize,
     coordArray[2][1] * matSize,
     directionArray[2]
   ),
   new Ship(
     3,
-    coordArray[3][0] * matSize + grid_offset_X,
+    coordArray[3][0] * matSize,
     coordArray[3][1] * matSize,
     directionArray[3]
   ),
   new Ship(
     4,
-    coordArray[4][0] * matSize + grid_offset_X,
+    coordArray[4][0] * matSize,
     coordArray[4][1] * matSize,
     directionArray[4]
   ),
@@ -243,31 +262,31 @@ const ships = [
 const playerShips = [
   new Ship(
     0,
-    playerCoordArray[0][0] * matSize + grid_offset_X,
+    playerCoordArray[0][0] * matSize,
     playerCoordArray[0][1] * matSize,
     playerDirectionArray[0]
   ),
   new Ship(
     1,
-    playerCoordArray[1][0] * matSize + grid_offset_X,
+    playerCoordArray[1][0] * matSize,
     playerCoordArray[1][1] * matSize,
     playerDirectionArray[1]
   ),
   new Ship(
     2,
-    playerCoordArray[2][0] * matSize + grid_offset_X,
+    playerCoordArray[2][0] * matSize,
     playerCoordArray[2][1] * matSize,
     playerDirectionArray[2]
   ),
   new Ship(
     3,
-    playerCoordArray[3][0] * matSize + grid_offset_X,
+    playerCoordArray[3][0] * matSize,
     playerCoordArray[3][1] * matSize,
     playerDirectionArray[3]
   ),
   new Ship(
     4,
-    playerCoordArray[4][0] * matSize + grid_offset_X,
+    playerCoordArray[4][0] * matSize,
     playerCoordArray[4][1] * matSize,
     playerDirectionArray[4]
   ),
@@ -277,21 +296,21 @@ const playerShips = [
 function draw_enemy_board() {
   // if images are not done loading
   // try again in a bit
-  if (!water_image.complete) {
+  if (!background.complete) {
     window.requestAnimationFrame(draw_enemy_board);
     return;
   }
   const board = document.getElementById("enemy_board_canvas");
   const context = board.getContext("2d");
-  const pattern = context.createPattern(water_image, "repeat");
+  const pattern = context.createPattern(background, "repeat");
   context.fillStyle = pattern;
   context.fillRect(0, 0, 500, 500);
-  context.drawImage(water_image, 0, 0, 500, 500);
+  context.drawImage(background, 0, 0, 500, 500);
   for (let row = 0; row < 10; row += 1) {
     for (let col = 0; col < 10; col += 1) {
       let top = row * matSize;
       let left = col * matSize;
-      context.fillStyle = "white";
+      context.fillStyle = "green";
       context.fillRect(left - 2, top - 2, matSize, 4);
       context.fillRect(left - 2, top - 2, 4, matSize);
       context.fillRect(left - 2, top - 2 + matSize, matSize, 4);
@@ -305,21 +324,21 @@ function draw_enemy_board() {
 function draw_player_board() {
   // if images are not done loading
   // try again in a bit
-  if (!water_image.complete) {
+  if (!background.complete) {
     window.requestAnimationFrame(draw_player_board);
     return;
   }
   const board = document.getElementById("player_board_canvas");
   const context = board.getContext("2d");
-  const pattern = context.createPattern(water_image, "repeat");
+  const pattern = context.createPattern(background, "repeat");
   context.fillStyle = pattern;
   context.fillRect(0, 0, 500, 500);
-  context.drawImage(water_image, 0, 0, 500, 500);
+  context.drawImage(background, 0, 0, 500, 500);
   for (let row = 0; row < 10; row += 1) {
     for (let col = 0; col < 10; col += 1) {
       let top = row * matSize;
       let left = col * matSize;
-      context.fillStyle = "white";
+      context.fillStyle = "green";
       context.fillRect(left - 2, top - 2, matSize, 4);
       context.fillRect(left - 2, top - 2, 4, matSize);
       context.fillRect(left - 2, top - 2 + matSize, matSize, 4);
@@ -331,13 +350,13 @@ function draw_player_board() {
 function draw_enemy_ships() {
   // if images are not done loading
   // try again in a bit
-  if (!ship_image.complete) {
+  if (!spaceShips.complete) {
     window.requestAnimationFrame(draw_enemy_ships);
     return;
   }
   const game = document.getElementById("enemy_game_canvas");
   const context = game.getContext("2d");
-  context.globalAlpha = 0.0;
+  context.globalAlpha = 1.0;
   context.clearRect(0, 0, 500, 500);
   if (shipClickedOn !== undefined) {
     const left = 50 * Math.round(ships[shipClickedOn].x / 50);
@@ -349,7 +368,7 @@ function draw_enemy_ships() {
 function draw_player_ships() {
   // if images are not done loading
   // try again in a bit
-  if (!ship_image.complete) {
+  if (!spaceShips.complete) {
     window.requestAnimationFrame(draw_player_ships);
     return;
   }
@@ -396,22 +415,23 @@ function isArrayInArray(arr, item) {
   return contains;
 }
 
-function clickedInsideShip(x, y) {
-  let ss = undefined;
+function clickedInsideShip(x, y) 
+{
+  let shipSelection = undefined;
   ships.forEach((ship, index) => {
-    if (ship.x <= x && ship.y <= y && ship.far_x >= x && ship.far_y >= y) {
-      ss = index;
+    if (ship.x <= x && ship.y <= y && ship.x_2 >= x && ship.y_2 >= y) {
+      shipSelection = index;
     }
   });
-  return ss;
+  return shipSelection;
 }
 
 function clickedInsideShip2(x, y) {
-  let ss = undefined;
+  let shipSelection = undefined;
 
 
   ships.every((ship) => {
-    if (!(ship.x <= x && ship.y <= y && ship.far_x >= x && ship.far_y >= y)) {
+    if (!(ship.x <= x && ship.y <= y && ship.x_2 >= x && ship.y_2 >= y)) {
       // draw_miss(
       //   Math.floor(x / matSize) * matSize,
       //   Math.floor(y / matSize) * matSize
@@ -419,36 +439,27 @@ function clickedInsideShip2(x, y) {
     }
   });
 
-  ships.forEach((ship) => {
-    if (ship.x <= x && ship.y <= y && ship.far_x >= x && ship.far_y >= y) {
-      ss = "HIT!";
-      alert(ss);
+  ships.forEach((ship) => 
+  {
+    if (ship.x <= x && ship.y <= y && ship.x_2 >= x && ship.y_2 >= y) {
+      shipSelection = "HIT!";
+      alert(shipSelection);
       sumToWin += 1;
-      // draw_hit(
-      //   Math.floor(x / matSize) * matSize,
-      //   Math.floor(y / matSize) * matSize
-      // );
     }
   });
 
-  return ss;
+  return shipSelection;
 }
 
-// draw_miss(
-//     Math.floor(x / matSize) * matSize,
-//     Math.floor(y / matSize) * matSize
-//   );
-
-let shipClickedOn = undefined;
-let mouse_X_offset = 0;
-let mouse_Y_offset = 0;
 
 
-function setup_enemy_event_handlers() {
+
+
+
+function onEnemyEvent() {
   const game = document.getElementById("enemy_game_canvas");
   game.onmousemove = function (e) {
     game.style.cursor = "default";
-
     const x = e.offsetX;
     const y = e.offsetY;
   };
@@ -484,9 +495,9 @@ function setup_enemy_event_handlers() {
     if (shipClickedOn !== undefined) {
       e.preventDefault();
       ships[shipClickedOn].horizontal = !ships[shipClickedOn].horizontal;
-      [mouse_X_offset, mouse_Y_offset] = [mouse_Y_offset, mouse_X_offset];
-      ships[shipClickedOn].x = x - mouse_X_offset;
-      ships[shipClickedOn].y = y - mouse_Y_offset;
+      [clickXTransform, clickYTransform] = [clickYTransform, clickXTransform];
+      ships[shipClickedOn].x = x - clickXTransform;
+      ships[shipClickedOn].y = y - clickYTransform;
 
       draw_ships();
     }

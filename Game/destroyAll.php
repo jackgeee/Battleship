@@ -11,6 +11,6 @@ $clearPositions = "TRUNCATE TABLE playerPositions";
 $db->query($clearCoords);
 $db->query($clearPositions);
 
-header('location: ../Registration/login.php')
+header('location: ../MainPage/Main.php')
 
 ?>

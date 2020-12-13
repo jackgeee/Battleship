@@ -202,7 +202,7 @@
     </script>
     <script>
         draw_enemy_ships();
-        setup_enemy_event_handlers();
+        onEnemyEvent();
     </script>
 
     <script>
