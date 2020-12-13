@@ -1,53 +1,12 @@
 const matSize = 50;
-const image_perimeter = matSize * 1.125;
-const transformX = 200;
+const image_perimeter = 0;
+let shipClickedOn = undefined;
+let clickXTransform = 0;
+let clickYTransform = 0;
 const background = document.createElement("img");
 background.src = "../src/images/space.png";
 const spaceShips = document.createElement("img");
 spaceShips.src = "../src/images/newShips.png";
-
-
-// The array which is used to construct each Space Ship
-const typeOfShips = [
-  {
-    size: 5,
-    imageRefTop: 0,
-    imageRefLeft: 0,
-    name: "Carrier",
-  },
-
-  {
-    size: 4,
-    imageRefTop: 1,
-    imageRefLeft: 1,
-    name: "BattleShip",
-  },
-
-  {
-    size: 3,
-    imageRefTop: 1,
-    imageRefLeft: 2,
-    name: "Submarine",
-  },
-
-  {
-    size: 3,
-    imageRefTop: 2,
-    imageRefLeft: 3,
-    name: "Destroyer",
-  },
-
-  {
-    size: 2,
-    imageRefTop: 0,
-    imageRefLeft: 3,
-    name: "Patrol Ship",
-  },
-];
-// const background = document.createElement("img");
-// background.src = "../src/images/space.png";
-// const spaceShips = document.createElement("img");
-// spaceShips.src = "../src/images/newShips.png";
 
 
 class Ship {
@@ -175,7 +134,7 @@ class Ship {
     fillerEnvironment.restore();
   }
   
-  describe() {
+  getJsonInfo() {
     const x = (this.x) / matSize;
     const y = (this.y) / matSize;
     const positions = new Array(typeOfShips[this.type].size)
@@ -189,6 +148,47 @@ class Ship {
   }
 }
 
+// The array which is used to construct each Space Ship
+const typeOfShips = [
+  {
+    size: 5,
+    imageRefTop: 0,
+    imageRefLeft: 0,
+    name: "Carrier",
+  },
+
+  {
+    size: 4,
+    imageRefTop: 1,
+    imageRefLeft: 1,
+    name: "BattleShip",
+  },
+
+  {
+    size: 3,
+    imageRefTop: 1,
+    imageRefLeft: 2,
+    name: "Submarine",
+  },
+
+  {
+    size: 3,
+    imageRefTop: 2,
+    imageRefLeft: 3,
+    name: "Destroyer",
+  },
+
+  {
+    size: 2,
+    imageRefTop: 0,
+    imageRefLeft: 3,
+    name: "Patrol Ship",
+  },
+];
+
+
+
+
 const ships = [
   new Ship(0, 0, 250, false),
   new Ship(1, 50, 300, false),
@@ -198,16 +198,13 @@ const ships = [
 ];
 
 function draw_board() {
-  // if images are not done loading
-  // try again in a bit
+
   if (!background.complete) {
     window.requestAnimationFrame(draw_board);
     return;
   }
   const board = document.getElementById("board_canvas");
   const context = board.getContext("2d");
-  // const pattern = context.createPattern(background, "repeat");
-  // context.fillStyle = pattern;
   context.fillRect(0, 0, 500, 500);
   context.drawImage(background, 0, 0, 500, 500);
   for (let row = 0; row < 10; row += 1) {
@@ -226,52 +223,58 @@ function draw_board() {
 
 // if (!spaceShips.complete || !shadow_image.complete) {
 function draw_ships() {
-  // if images are not done loading
-  // try again in a bit
+
   if (!spaceShips.complete) {
     window.requestAnimationFrame(draw_ships);
     return;
   }
+
   const game = document.getElementById("game_canvas");
   const context = game.getContext("2d");
   context.clearRect(0, 0, 700, 500);
-  if (selected_ship !== undefined) {
-    const imageRefLeft = 50 * Math.round(ships[selected_ship].x / 50);
-    const imageRefTop = 50 * Math.round(ships[selected_ship].y / 50);
-    if (imageRefLeft >= 200) {
-      ships[selected_ship].drawShipsInBoard(context, imageRefTop, imageRefLeft);
+  if (shipClickedOn !== undefined) {
+    const imageRefLeft = 50 * Math.round(ships[shipClickedOn].x / 50);
+    const imageRefTop = 50 * Math.round(ships[shipClickedOn].y / 50);
+    if (imageRefLeft >= 500 || imageRefTop >= 500) {
+      game.style.cursor = "not-allowed";
+      ships[shipClickedOn].drawShipsInBoard(context, imageRefTop, imageRefLeft);
+      
     }
   }
   ships.forEach((s) => s.draw(context));
 }
 
 
-function find_ship(x, y) {
-  let ss = undefined;
-  ships.forEach((ship, index) => {
+function clickedInsideShip(x, y) {
+  let shipSelection = undefined;
+  
+  ships.forEach((ship, index) => 
+  {
     if (ship.x <= x && ship.y <= y && ship.x_2 >= x && ship.y_2 >= y) {
-      ss = index;
+      shipSelection = index;
     }
   });
-  return ss;
-}
-let selected_ship = undefined;
-let mousex_1_offset = 0;
-let mousey_1_offset = 0;
 
-function setup_event_handlers() {
+  return shipSelection;
+
+}
+
+
+
+
+function onEvent() {
   const game = document.getElementById("game_canvas");
   game.onmousemove = function (e) {
     game.style.cursor = "default";
     const x = e.offsetX;
     const y = e.offsetY;
-    const ship = find_ship(x, y);
+    const ship = clickedInsideShip(x, y);
     if (ship !== undefined) {
-      game.style.cursor = "move";
+      game.style.cursor = "crosshair";
     }
-    if (selected_ship !== undefined) {
-      ships[selected_ship].x = x - mousex_1_offset;
-      ships[selected_ship].y = y - mousey_1_offset;
+    if (shipClickedOn !== undefined) {
+      ships[shipClickedOn].x = x - clickXTransform;
+      ships[shipClickedOn].y = y - clickYTransform;
       draw_ships();
     }
   };
@@ -279,47 +282,47 @@ function setup_event_handlers() {
   game.onclick = function (e) {
     const x = e.offsetX;
     const y = e.offsetY;
-    if (selected_ship !== undefined) {
-      ships[selected_ship].x =
-        matSize * Math.round(ships[selected_ship].x / matSize);
-      ships[selected_ship].y =
-        matSize * Math.round(ships[selected_ship].y / matSize);
-      selected_ship = undefined;
+    if (shipClickedOn !== undefined) {
+      ships[shipClickedOn].x =
+        matSize * Math.round(ships[shipClickedOn].x / matSize);
+      ships[shipClickedOn].y =
+        matSize * Math.round(ships[shipClickedOn].y / matSize);
+      shipClickedOn = undefined;
       draw_ships();
       return;
     }
-    selected_ship = find_ship(x, y);
-    if (selected_ship == undefined) {
+    shipClickedOn = clickedInsideShip(x, y);
+    if (shipClickedOn == undefined) {
       return;
     }
-    mousex_1_offset = x - ships[selected_ship].x;
-    mousey_1_offset = y - ships[selected_ship].y;
+    clickXTransform = x - ships[shipClickedOn].x;
+    clickYTransform = y - ships[shipClickedOn].y;
   };
   game.oncontextmenu = function (e) {
     const x = e.offsetX;
     const y = e.offsetY;
-    if (selected_ship !== undefined) {
+    if (shipClickedOn !== undefined) {
       e.preventDefault();
-      ships[selected_ship].horizontal = !ships[selected_ship].horizontal;
-      [mousex_1_offset, mousey_1_offset] = [mousey_1_offset, mousex_1_offset];
-      ships[selected_ship].x = x - mousex_1_offset;
-      ships[selected_ship].y = y - mousey_1_offset;
+      ships[shipClickedOn].horizontal = !ships[shipClickedOn].horizontal;
+      [clickXTransform, clickYTransform] = [clickYTransform, clickXTransform];
+      ships[shipClickedOn].x = x - clickXTransform;
+      ships[shipClickedOn].y = y - clickYTransform;
       draw_ships();
     }
   };
 }
-function startGame() {
+// function startGame() {
   
-  var tmp = ships.map((s) => s.describe());
+//   var tmp = ships.map((s) => s.getJsonInfo());
 
-  var jsonShips = JSON.stringify(tmp);
+//   var jsonShips = JSON.stringify(tmp);
 
-  $.ajax({
-    type: "GET",
-    url: "getEnemyInfo.php",
-    data: { jsonShips: jsonShips },
-    success: function (data) {
-      window.location = "getEnemyInfo.php?Ships=" + jsonShips;
-    },
-  });
-}
+//   $.ajax({
+//     type: "GET",
+//     url: "getEnemyInfo.php",
+//     data: { jsonShips: jsonShips },
+//     success: function (data) {
+//       window.location = "getEnemyInfo.php?Ships=" + jsonShips;
+//     },
+//   });
+// }

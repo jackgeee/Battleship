@@ -140,7 +140,7 @@ class Ship {
     fillerEnvironment.restore();
   }
 
-  describe() {
+  getJsonInfo() {
     const x = (this.x - grid_offset_X) / matSize;
     const y = (this.y - grid_offset_Y) / matSize;
     const positions = new Array(ShipType[this.type].size)
@@ -339,9 +339,9 @@ function draw_enemy_ships() {
   const context = game.getContext("2d");
   context.globalAlpha = 0.0;
   context.clearRect(0, 0, 500, 500);
-  if (selected_ship !== undefined) {
-    const left = 50 * Math.round(ships[selected_ship].x / 50);
-    const top = 50 * Math.round(ships[selected_ship].y / 50);
+  if (shipClickedOn !== undefined) {
+    const left = 50 * Math.round(ships[shipClickedOn].x / 50);
+    const top = 50 * Math.round(ships[shipClickedOn].y / 50);
   }
   ships.forEach((s) => s.draw(context));
 }
@@ -357,9 +357,9 @@ function draw_player_ships() {
   const context = game.getContext("2d");
   context.globalAlpha = 1.0;
   context.clearRect(0, 0, 500, 500);
-  if (selected_ship !== undefined) {
-    const left = 50 * Math.round(playerShips[selected_ship].x / 50);
-    const top = 50 * Math.round(playerShips[selected_ship].y / 50);
+  if (shipClickedOn !== undefined) {
+    const left = 50 * Math.round(playerShips[shipClickedOn].x / 50);
+    const top = 50 * Math.round(playerShips[shipClickedOn].y / 50);
   }
   playerShips.forEach((s) => s.draw(context));
 }
@@ -396,7 +396,7 @@ function isArrayInArray(arr, item) {
   return contains;
 }
 
-function find_ship(x, y) {
+function clickedInsideShip(x, y) {
   let ss = undefined;
   ships.forEach((ship, index) => {
     if (ship.x <= x && ship.y <= y && ship.far_x >= x && ship.far_y >= y) {
@@ -406,7 +406,7 @@ function find_ship(x, y) {
   return ss;
 }
 
-function find_ship2(x, y) {
+function clickedInsideShip2(x, y) {
   let ss = undefined;
 
 
@@ -439,7 +439,7 @@ function find_ship2(x, y) {
 //     Math.floor(y / matSize) * matSize
 //   );
 
-let selected_ship = undefined;
+let shipClickedOn = undefined;
 let mouse_X_offset = 0;
 let mouse_Y_offset = 0;
 
@@ -470,7 +470,7 @@ function setup_enemy_event_handlers() {
   game.onclick = function (e) {
     const x = e.offsetX;
     const y = e.offsetY;
-    find_ship2(x, y);
+    clickedInsideShip2(x, y);
     sendCoords(x,y);
 
     if (sumToWin == 17) {
@@ -481,12 +481,12 @@ function setup_enemy_event_handlers() {
   game.oncontextmenu = function (e) {
     const x = e.offsetX;
     const y = e.offsetY;
-    if (selected_ship !== undefined) {
+    if (shipClickedOn !== undefined) {
       e.preventDefault();
-      ships[selected_ship].horizontal = !ships[selected_ship].horizontal;
+      ships[shipClickedOn].horizontal = !ships[shipClickedOn].horizontal;
       [mouse_X_offset, mouse_Y_offset] = [mouse_Y_offset, mouse_X_offset];
-      ships[selected_ship].x = x - mouse_X_offset;
-      ships[selected_ship].y = y - mouse_Y_offset;
+      ships[shipClickedOn].x = x - mouse_X_offset;
+      ships[shipClickedOn].y = y - mouse_Y_offset;
 
       draw_ships();
     }

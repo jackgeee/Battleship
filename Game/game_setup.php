@@ -72,11 +72,11 @@ session_start();
     </script>
     <script>
         draw_ships();
-        setup_event_handlers();
+        onEvent();
 
         function insSet() {
             var ins = document.getElementById('json');
-            ins.value = JSON.stringify(ships.map((s) => s.describe()));
+            ins.value = JSON.stringify(ships.map((s) => s.getJsonInfo()));
         }
     </script>
 </body>
