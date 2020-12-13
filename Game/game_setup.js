@@ -176,7 +176,7 @@ class Ship {
   }
   
   describe() {
-    const x = (this.x - transformX) / matSize;
+    const x = (this.x) / matSize;
     const y = (this.y) / matSize;
     const positions = new Array(typeOfShips[this.type].size)
       .fill(0)
@@ -309,6 +309,7 @@ function setup_event_handlers() {
   };
 }
 function startGame() {
+  
   var tmp = ships.map((s) => s.describe());
 
   var jsonShips = JSON.stringify(tmp);

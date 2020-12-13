@@ -47,12 +47,14 @@ const SubmarinePos = enemyShipsPos[2]["positions"];
 const DestroyerPos = enemyShipsPos[3]["positions"];
 const PatrolPos = enemyShipsPos[4]["positions"];
 
-console.log(CarrierPos);
-console.log(ecoordArray);
+// console.log(CarrierPos);
+// console.log(ecoordArray);
 
 /////////////////////// CARRIER SUNK? ////////////////////////////
 
 var CarrierSunk;
+console.log(CarrierPos);
+console.log(playerClicks);
 for (var i = 0; i < CarrierPos.length; i++) {
     if(arrayAlreadyHasArray(playerClicks, CarrierPos[i]))  {
         CarrierSunk = true;

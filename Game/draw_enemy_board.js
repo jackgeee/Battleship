@@ -1,5 +1,5 @@
 const matSize = 50;
-const grid_offset_X = 200;
+const grid_offset_X = 0;
 const grid_offset_Y = 0;
 var sumToWin = 0;
 

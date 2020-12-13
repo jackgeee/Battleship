@@ -63,6 +63,8 @@ function drawHits() {
 
   const pboard = document.getElementById("enemy_board_canvas");
   const pcontext = pboard.getContext("2d");
+  // console.log(ecoordArray);
+  // console.log(playerClicks);
 
   for (var j = 0; j < playerClicks.length; j++) {
     var flag = true;
@@ -72,14 +74,14 @@ function drawHits() {
       var px = ecoordArray[i][0];
       var py = ecoordArray[i][1];
       if (ex == px && ey == py) {
-        //console.log(ex, ey, px, py);
+        // console.log(ex, ey, px, py);
         pcontext.drawImage(hit_image, px * 50, py * 50);
         flag = false;
         sumtowin++;
       }
       //context.drawImage(hit_image, x, y)
     }
-    if (flag) pcontext.drawImage(miss_image, ex * 50, ey * 50);
+    if (flag) pcontext.drawImage(miss_image, (ex * 50), ey * 50);
   }
 
   const eboard = document.getElementById("player_board_canvas");
@@ -93,7 +95,7 @@ function drawHits() {
       var py = pcoordArray[i][1];
       if (ex == px && ey == py) {
         // console.log(ex, ey, px, py);
-        econtext.drawImage(hit_image, px * 50, py * 50);
+        econtext.drawImage(hit_image, (px * 50), py * 50);
         flag = false;
         sumtoloose++;
       }
