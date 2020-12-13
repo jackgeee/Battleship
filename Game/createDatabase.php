@@ -75,7 +75,7 @@ $registrationdb = mysqli_connect('localhost', 'root', '', 'registration');
     
     
 
-    $insertRandomData1 = "INSERT INTO users (username, password, gamesWon, timePlayed, gamesPlayed) VALUES ('Obama', '911', '5', '5', '5')"; //default values ? error
+    $insertRandomData1 = "INSERT INTO users (username, password, gamesWon, timePlayed, gamesPlayed) VALUES ('Obama', '911', '5', '5', '5')"; 
     $insertRandomData2 = "INSERT INTO users (username, password, gamesWon, timePlayed, gamesPlayed) VALUES ('Hubert', '911', '2', '10', '7')";
     $insertRandomData3 = "INSERT INTO users (username, password, gamesWon, timePlayed, gamesPlayed) VALUES ('Todd', '911', '0', '80', '12')";
     $insertRandomData4 = "INSERT INTO users (username, password, gamesWon, timePlayed, gamesPlayed) VALUES ('Matin', '911', '1', '16', '9')";

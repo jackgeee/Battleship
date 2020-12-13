@@ -1,0 +1,21 @@
+Jack Gezalian contributions:
+-   CSS Fresno state styling
+-   Gameplay: Display ship methods
+-   Gameplay: Sunken ship methods
+-   Gameplay: Horizontal ship methods
+-   Login page
+-   Sign up page
+-   Contact page
+-   Main page
+-   Help page
+-   Timer display
+
+
+Ben Corrales contributions:
+-   Database creation
+-   Gameplay: Class construction
+-   Gameplay: End game notification
+-   Start Game between two people
+-   Gameboard page
+-   Leaderboards
+-   Readme page
