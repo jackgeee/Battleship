@@ -39,8 +39,8 @@ session_start();
             <p>Welcome<strong> <em> <?php echo $_SESSION['username'] . "," ?> </strong> </em> Please set your ships</p>
         <?php endif ?>
         <h5>
-            Click to select and place, right click to rotate <br>
-            Please hit "get positions" before starting the game.
+            Click on a ship to move it to your desired position. Right click to rotate. <br>
+            Please click "get positions" before starting the game.
         </h5>
     </div>
 
