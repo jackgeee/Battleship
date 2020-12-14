@@ -356,7 +356,7 @@ function draw_enemy_ships() {
   }
   const game = document.getElementById("enemy_game_canvas");
   const context = game.getContext("2d");
-  context.globalAlpha = 1.0;
+  context.globalAlpha = 0.0;
   context.clearRect(0, 0, 500, 500);
   if (shipClickedOn !== undefined) {
     const left = 50 * Math.round(ships[shipClickedOn].x / 50);

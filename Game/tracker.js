@@ -162,39 +162,17 @@ if(PatrolSunk){
 
 }
 
-if (CarrierSunk && BattleShipSunk && SubmarineSunk && DestroyerSunk && PatrolSunk) {
+if (CarrierSunk && BattleshipSunk && SubmarineSunk && DestroyerSunk && PatrolSunk) {
     window.localStorage.clear() 
 }
-
-// window.localStorage.clear() 
-
-
-
-// const result = CarrierPos.every(val => ecoordArray.includes(val));
-// const resultY = CarrierPos[i][1].every(val => ecoordArray[i][1].includes(val));
-// const result = resultX && resultY;
-
-
-// var shiphits = [0,0,0,0,0];
-// for (var i = 0; i < enemyclicks.length; i++) {
-//         for(var k = 0; k < 4; k++){
-//             for (let j = 0; j < playerShipsPos[k]["positions"][j].length; j++) {
-//                 var ex = enemyclicks[i][0];
-//                 var ey = enemyclicks[i][1];
-//                 var px = playerShipsPos[k]["positions"][j][0];
-//                 var py = playerShipsPos[k]["positions"][j][1];
-//                 //console.log(ex, py);
-//                 if (ex == px && ey == py) {
-//                     console.log("ship", k, "got hit");
-//                     shiphits[k]++;
-//                 }
-
-//             }
-//         }
-//     }
-//     for(var k = 0; k < 5; k++){
-//         if(shiphits[k] >= playerShipsPos[k]["positions"].length){
-//             alert(playerShipsPos[k]['type'] + " sunk");
-//         }
-//     }
 }
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+// if (localStorage.getItem('CarrierSunkalerted') == 'yes') {
+//     console.log("here");
+//     document.getElementById("enemyCarrier").innerHTML = "Carrier Sunk!";
+// }
+

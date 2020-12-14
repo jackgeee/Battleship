@@ -126,18 +126,45 @@
 
     <div class="header">
         <?php if (isset($_SESSION['username'])) : ?>
+
             <p>You better win<strong> <em> <?php echo $_SESSION['username'] . "!" ?> </strong> </em> </p>
-            <div id="timerLabelsec">Loading...</div>
+
+            <ul style="list-style-type:none;" class="enemyShipsLeft" id="enemyShipsLeft">
+                <li id="enemyCarrier">Carrier</li>
+                <li id="enemyBattleship">Battleship</li>
+                <li id="enemyDestroyer">Destroyer</li>
+                <li id="Space Submarine">Space Submarine</li>
+                <li id="Patrol Ship">Patrol Ship</li>
+            </ul>
+
+            <ul style="list-style-type:none;" class="playerShipsLeft" id="playerShipsLeft">
+                <li>Carrier</li>
+                <li>Battleship</li>
+                <li>Destroyer</li>
+                <li>Space Submarine</li>
+                <li>Patrol Ship</li>
+            </ul>
+
+            <div id="timerLabelsec">
+                Loading...
+            </div>
+
             <button onclick="resetStartTime()"></button>
+
         <?php endif ?>
     </div>
 
+
+
     <div class="content">
 
-        <p class="enemyName">  <?php echo $_SESSION['otherPlayer'] ?> </p>
-        
-        <p class="playerName">  <?php echo $_SESSION['username'] ?>   </p>
-        
+        <p class="enemyName"> <?php echo $_SESSION['otherPlayer'] ?>
+
+
+        </p>
+
+        <p class="playerName"> <?php echo $_SESSION['username'] ?> </p>
+
     </div>
 
     <div class="gameMenu">
@@ -178,7 +205,6 @@
     </script> -->
 
     <script>
-        
         function resetStartTime() {
             startTime = new Date();
             window.localStorage.setItem('startTime', startTime);

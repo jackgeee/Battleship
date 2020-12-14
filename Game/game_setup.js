@@ -306,18 +306,3 @@ function onEvent() {
   };
 }
 
-// function startGame() {
-  
-//   var tmp = ships.map((s) => s.getJsonInfo());
-
-//   var jsonShips = JSON.stringify(tmp);
-
-//   $.ajax({
-//     type: "GET",
-//     url: "getEnemyInfo.php",
-//     data: { jsonShips: jsonShips },
-//     success: function (data) {
-//       window.location = "getEnemyInfo.php?Ships=" + jsonShips;
-//     },
-//   });
-// }

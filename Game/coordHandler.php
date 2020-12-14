@@ -11,6 +11,15 @@ if (isset($_GET['x'], $_GET['y'])) {
     $data = array($_GET['x']/50, $_GET['y']/50);
     $coords = json_encode($data);
 
+    // $dupCheckQuery = "SELECT hasClicked FROM coordsClickedOn WHERE hasClicked = '$coords'";
+    
+    // $dupCheckResults = mysqli_query($db, $dupCheckQuery);
+
+    // if($dupCheckResults->num_rows > 0) {
+    //     header('location: draw_enemy_board.php');
+    // }
+
+
     $query = "INSERT INTO coordsClickedOn (username, hasClicked) VALUES ('$username', '$coords')";
     $db->query($query);
 

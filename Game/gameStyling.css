@@ -170,3 +170,19 @@
       background: #c41230; 
       border-color: red;
   }
+
+  .ShipsLeft {
+    margin: auto;
+    background: #c41230;
+  }
+
+  .enemyShipsLeft {
+    font-family: sans-serif;
+    float: left;
+    
+  }
+
+  .playerShipsLeft {
+    font-family: sans-serif;
+    float: right;
+  }
