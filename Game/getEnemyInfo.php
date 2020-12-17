@@ -25,7 +25,10 @@ if (isset($_GET['Ships'])) {
     }
 
     if ($result->num_rows > 1) {
-   
+        if(!isset($_SESSION['p1']))
+        {
+            $_SESSION['p1'] = 2;
+        }
 
         while ($row = $result->fetch_assoc()) {
 

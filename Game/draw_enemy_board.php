@@ -33,7 +33,13 @@
 
 <div hidden id="playerCoords">
     <?php
-    $temp = true;
+    if(!isset($_SESSION['playerCoords']))
+    {
+        echo "0";
+    }
+    else
+    {
+        $temp = true;
     echo '[';
     foreach ($_SESSION['playerCoords'] as $result) {
         if ($temp) {
@@ -43,6 +49,8 @@
         echo "," . ($result);
     }
     echo ']';
+    }
+    
     ?>
 </div>
 
@@ -94,7 +102,7 @@
     <script src="draw_enemy_board.js"></script>
     <script src="drawOnPlayerBoard.js"></script>
     <script src="tracker.js"></script>
-
+        <div id="confirm"> </div>
 
 
 
@@ -123,34 +131,24 @@
 
     </div>
 
-
     <div class="header">
         <?php if (isset($_SESSION['username'])) : ?>
-
-            <p>You better win<strong> <em> <?php echo $_SESSION['username'] . "!" ?> </strong> </em> </p>
-
-            <ul style="list-style-type:none;" class="enemyShipsLeft" id="enemyShipsLeft">
-                <li id="enemyCarrier">Carrier</li>
-                <li id="enemyBattleship">Battleship</li>
-                <li id="enemyDestroyer">Destroyer</li>
-                <li id="Space Submarine">Space Submarine</li>
-                <li id="Patrol Ship">Patrol Ship</li>
-            </ul>
-
-            <ul style="list-style-type:none;" class="playerShipsLeft" id="playerShipsLeft">
-                <li>Carrier</li>
-                <li>Battleship</li>
-                <li>Destroyer</li>
-                <li>Space Submarine</li>
-                <li>Patrol Ship</li>
-            </ul>
-
-            <div id="timerLabelsec">
-                Loading...
-            </div>
-
+            <p>
+            <?php
+                if ($_SESSION['p1'] == '1')
+                {
+                    echo 'Player 1, Goodluck: ';
+                }
+                else
+                {
+                    echo 'Player 2, Goodluck: ';
+                }
+            ?>
+            <strong> <em> 
+            <?php echo $_SESSION['username'] . "!" ?> 
+            </strong> </em> </p>
+            <div id="timerLabelsec">Loading...</div>
             <button onclick="resetStartTime()"></button>
-
         <?php endif ?>
     </div>
 
@@ -176,33 +174,6 @@
     </div>
 
 
-
-
-    <!-- 
-    <script>
-        
-        var minutesLabel = document.getElementById("minutes");
-        var secondsLabel = document.getElementById("seconds");
-        var totalSeconds = 0;
-        setInterval(setTime, 1000);
-
-        function setTime() {
-            ++totalSeconds;
-            secondsLabel.innerHTML = pad(totalSeconds % 60);
-            minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
-            localStorage.setItem('savedSeconds', secondsLabel);
-            localStorage.setItem('savedMinutes', minutesLabel);
-        }
-
-        function pad(val) {
-            var valString = val + "";
-            if (valString.length < 2) {
-                return "0" + valString;
-            } else {
-                return valString;
-            }
-        }
-    </script> -->
 
     <script>
         function resetStartTime() {
@@ -236,24 +207,11 @@
     </script>
     <script>
         draw_player_ships();
-        // setup_player_event_handlers();
         drawHits();
         shipSunk();
     </script>
 
 
-    <!-- // include "coordHandler.php";
-        // $templen = count($enemypos);
-        // //everysecond do this
-        //         $enemypos = array();
-        //         while ($row = $enemyresult->fetch_assoc()) {
-        //             // echo ($row['hasClicked']); 
-        //             // echo "<br>";
-        //             array_push($enemypos, $row['hasClicked']);  
-        //         }
-        //         if($templen > count($enemypos)){
-        //             //call coordhandler
-        //         } -->
 
 
 

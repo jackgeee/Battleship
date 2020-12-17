@@ -426,81 +426,142 @@ function clickedInsideShip(x, y)
   return shipSelection;
 }
 
-function clickedInsideShip2(x, y) {
-  let shipSelection = undefined;
-
-
-  ships.every((ship) => {
-    if (!(ship.x <= x && ship.y <= y && ship.x_2 >= x && ship.y_2 >= y)) {
-      // draw_miss(
-      //   Math.floor(x / matSize) * matSize,
-      //   Math.floor(y / matSize) * matSize
-      // );
-    }
+function sendCoords(x,y) {
+  //to do fix duplicates
+  $.ajax({
+    type: "GET",
+    url: "coordHandler.php",
+    success: function () {
+    window.location = "coordHandler.php?x=" + Math.floor(x / matSize) * matSize +"&y="+ Math.floor(y / matSize) * matSize;
+    },
   });
+}
 
-  ships.forEach((ship) => 
+function sendCoords2(x,y) {
+  //to do fix duplicates
+  $.ajax({
+    type: "GET",
+    url: "end.php",
+    success: function () {
+    window.location = "end.php?x=" + Math.floor(x / matSize) * matSize +"&y="+ Math.floor(y / matSize) * matSize;
+    },
+  });
+}
+
+// function sendCoordsFinal(x,y) {
+//   //to do fix duplicates
+//   $.ajax({
+//     type: "GET",
+//     url: "coordHandler.php?",
+//     success: function () {
+//     window.location = ("../MainPage/Main.php");
+//     },
+//   });
+// }
+
+
+function reClick(x,y)
+{
+  x = Math.floor(x/50);
+  y = Math.floor(y/50);
+  // NOBODY HAS MADE A MOVE YET
+  if(document.getElementById("playerCoords").innerHTML === "0")
   {
-    if (ship.x <= x && ship.y <= y && ship.x_2 >= x && ship.y_2 >= y) {
-      shipSelection = "HIT!";
-      alert(shipSelection);
-      sumToWin += 1;
+    return false;
+  }
+  // Check what coordinates have been logged
+  else
+  {
+    var pArr = JSON.parse(document.getElementById("playerCoords").innerText);
+    for(var i = 0; i < pArr.length; i++)
+    {
+      // found a reclick
+      if(pArr[i][0] == x && pArr[i][1] == y)
+      {
+        alert("NO DOUBLE CLICKS ALLOWED");
+        return true;
+      }
     }
-  });
-
-  return shipSelection;
+  }
+  return false;
 }
 
 
+function clickedInsideShip2(x, y) {
 
-
-
-
-function onEnemyEvent() {
-  const game = document.getElementById("enemy_game_canvas");
-  game.onmousemove = function (e) {
-    game.style.cursor = "default";
-    const x = e.offsetX;
-    const y = e.offsetY;
-  };
-
-  // function to send coords:
-  // 
-  // 
-  function sendCoords(x,y) {
-    //to do fix duplicates
-    $.ajax({
-      type: "GET",
-      url: "coordHandler.php",
-      success: function () {
-      window.location = "coordHandler.php?x=" + Math.floor(x / matSize) * matSize +"&y="+ Math.floor(y / matSize) * matSize;
-      },
+  if(reClick(x,y))
+  {
+    return;
+  }
+  else
+  {
+    //Make user wait for next turn by removing the button
+    var butt = document.getElementById("conf");
+    butt.remove();
+    var flag = false;
+    ships.forEach((ship) => 
+    {
+      if (ship.x <= x && ship.y <= y && ship.x_2 >= x && ship.y_2 >= y) 
+      {
+        flag = true;
+      }
     });
+    // execution based on flag condition
+    if (flag)
+    {
+        alert("HIT! Waiting for enemy move.");
+        sumToWin += 1;
+    }
+    else
+    {
+      alert("MISS! Waiting for enemy move.");
+    }
+    sendCoords(x,y);
+  }
   }
 
-  game.onclick = function (e) {
-    const x = e.offsetX;
-    const y = e.offsetY;
-    clickedInsideShip2(x, y);
-    sendCoords(x,y);
 
-    if (sumToWin == 17) {
-      alert("YOU WON!");
-      sumToWin = 0;
-    }
-  };
-  game.oncontextmenu = function (e) {
-    const x = e.offsetX;
-    const y = e.offsetY;
-    if (shipClickedOn !== undefined) {
-      e.preventDefault();
-      ships[shipClickedOn].horizontal = !ships[shipClickedOn].horizontal;
-      [clickXTransform, clickYTransform] = [clickYTransform, clickXTransform];
-      ships[shipClickedOn].x = x - clickXTransform;
-      ships[shipClickedOn].y = y - clickYTransform;
-
-      draw_ships();
-    }
-  };
-}
-
+  function onEnemyEvent() {
+    const game = document.getElementById("enemy_game_canvas");
+    game.onmousemove = function (e) {
+      game.style.cursor = "default";
+      const x = e.offsetX;
+      const y = e.offsetY;
+    };
+  
+  
+  
+    game.onclick = function (e) {
+      const x = e.offsetX;
+      const y = e.offsetY;
+      // insertedCode
+      var headElement = document.getElementById("confirm");
+      headElement.innerHTML = "";
+    // if(!flag){
+      var inYes = document.createElement("button");
+      inYes.setAttribute('onclick','clickedInsideShip2('+x+','+y+')');
+      inYes.setAttribute('id','conf');
+      inYes.innerText = 'Confirm Attack';
+      headElement.append(inYes);
+    // }
+      // INSERTED END
+      if (sumToWin == 17) {
+        alert("YOU WON!");
+        sumToWin = 0;
+      }
+    };
+    game.oncontextmenu = function (e) {
+      const x = e.offsetX;
+      const y = e.offsetY;
+      if (shipClickedOn !== undefined) {
+        e.preventDefault();
+        ships[shipClickedOn].horizontal = !ships[shipClickedOn].horizontal;
+        [clickXTransform, clickYTransform] = [clickYTransform, clickXTransform];
+        ships[shipClickedOn].x = x - clickXTransform;
+        ships[shipClickedOn].y = y - clickYTransform;
+  
+        draw_ships();
+      }
+    };
+  }
+  

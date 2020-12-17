@@ -21,14 +21,6 @@ document.getElementById("playerPositions").style.display == "none";
 const player_miss_image = document.createElement("img");
 player_miss_image.src = "../src/images/playerMiss.png";
 
-// for ecorrds
-//     for ppos
-//         if ecords == pos
-//             draw hit
-//         else
-//             draw miss
-// console.log(enemyclicks);
-// console.log(playerShipsPos);
 
 var ecoordArray = [];
 var pcoordArray = [];
@@ -65,7 +57,6 @@ function drawHits() {
   const pcontext = pboard.getContext("2d");
   // console.log(ecoordArray);
   // console.log(playerClicks);
-
   for (var j = 0; j < playerClicks.length; j++) {
     var flag = true;
     for (var i = 0; i < ecoordArray.length; i++) {
@@ -103,13 +94,20 @@ function drawHits() {
     }
     if (flag) econtext.drawImage(player_miss_image, ex * 50, ey * 50);
   }
-  if (sumtowin > 16) {
-    alert("You win");
-    
-  }
-  if (sumtoloose > 16) {
+  
+   if (sumtoloose > 17) {
     alert("You LOSE");
+    sendCoords2(900,900);
+    // var quitGame = document.getElementById("QUIT");
+    // quitGame.setAttribute()
+    // window.location = ("../MainPage/Main.php");
   }
+
+  if (sumtowin > 17) {
+    alert("You win");
+    window.location = ("destroyAll.php");
+  }
+
 }
 
 

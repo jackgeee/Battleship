@@ -8,31 +8,35 @@ if (isset($_GET['x'], $_GET['y'])) {
 
     $db = mysqli_connect('localhost', 'root', '', 'gamedb');
     $username = $_SESSION['username']; 
+
+    
+
+
     $data = array($_GET['x']/50, $_GET['y']/50);
     $coords = json_encode($data);
-
-    // $dupCheckQuery = "SELECT hasClicked FROM coordsClickedOn WHERE hasClicked = '$coords'";
-    
-    // $dupCheckResults = mysqli_query($db, $dupCheckQuery);
-
-    // if($dupCheckResults->num_rows > 0) {
-    //     header('location: draw_enemy_board.php');
-    // }
-
 
     $query = "INSERT INTO coordsClickedOn (username, hasClicked) VALUES ('$username', '$coords')";
     $db->query($query);
 
 }
-// original:
-// $enemy_check_query = "SELECT hasClicked FROM coordsClickedOn WHERE username != '$username'";
-// $player_check_query = "SELECT hasClicked FROM coordsClickedOn WHERE username = '$username'";
-// original end
+// query to handle turns:
+$bottomQuery = "SELECT username, hasClicked FROM coordsClickedOn ORDER BY id DESC";
+$eResult = mysqli_query($db, $bottomQuery);
+$row = $eResult->fetch_assoc();
+
+// wait until an enemy coord has been logged
+while($row['username'] == $username)
+{
+    $eResult = mysqli_query($db, $bottomQuery);
+    $row = $eResult->fetch_assoc();
+}
+
+//ORIG
     $enemy_check_query = "SELECT hasClicked FROM coordsClickedOn WHERE username != '$username'";
     $player_check_query = "SELECT hasClicked FROM coordsClickedOn WHERE username = '$username'";
     $enemyresult = mysqli_query($db, $enemy_check_query);
     $playerresult = mysqli_query($db, $player_check_query);
-// wait until an enemy coord has been logged
+
 
     $enemypos = array();
     

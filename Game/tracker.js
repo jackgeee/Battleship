@@ -1,17 +1,3 @@
-// console.log(enemyShipsPos);
-
-/*
-shiphits
-for enemyclicks
-    for enemyShipsPos[i]["positions"][j]);
-        enemyclikc = shio pos
-        shiphits++
-
-
-if shiphits > shippos
-     shipsunk
-*/
-
 
 
 function arrayAlreadyHasArray(arr, subarr){
@@ -35,20 +21,12 @@ function arrayAlreadyHasArray(arr, subarr){
 function shipSunk() {
       
 
-// console.log(ecoordArray);
-
-// console.log(playerClicks);
-
-// console.log(playerShipsPos);
-
 const CarrierPos = enemyShipsPos[0]["positions"];
 const BattleshipPos = enemyShipsPos[1]["positions"];
 const SubmarinePos = enemyShipsPos[2]["positions"];
 const DestroyerPos = enemyShipsPos[3]["positions"];
 const PatrolPos = enemyShipsPos[4]["positions"];
 
-// console.log(CarrierPos);
-// console.log(ecoordArray);
 
 /////////////////////// CARRIER SUNK? ////////////////////////////
 
