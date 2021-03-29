@@ -1,10 +1,7 @@
 # Battleship
 
-To begin playing this battleship project on your machine please follow the steps below:
+http://battleship-130.bitnamiapp.com/Battleship-main/Registration/login.php
 
-1. From the parent directory navigate to the folder: "Game" 
-2. Click on "createDatabase.php"
-3. Proceed to "login.php", if this is your first visit please register
-3. Continue to the "Play Game" option.
+An online, two-player battleship game built with vanilla JS, HTML/CSS, and PHP. 
 
-By now, all necessary dependencies including the appropiate database will be created. Enjoy the game play!
+Deployed with AWS and Bitnami. 
